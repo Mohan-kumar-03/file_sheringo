@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo for the testing</title>
+    <style>
+        body{
+            background-color: antiquewhite;
+        }
+ 
+
+       .send{
+            width:90vh;
+            height:70vh;
+            background-color: rgba(245, 239, 239, 0.5);
+            box-shadow: 1px 1px 5px gray;
+            border-radius: 10px;
+            position: absolute;
+            top:-100%;
+            left: 50%;
+            transform: translate(-50%,0%);
+            display: grid;
+            justify-content: center;
+            transition: 0.4s;
+        }
+        #input{
+            display: none;
+        }
+        .send img{
+            width:200px;
+            position: relative;
+            top:50% ;
+            left:50%;
+            transform: translate(-50%,-20%);
+        }
+        .send  h2{
+            font-size: 30px;
+            text-align: center;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+      .clksend{
+            top:20%;
+      }
+
+      .container {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#upload-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+#file-input {
+  display: none;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background-color: #ddd;
+  margin-top: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background-color: #4CAF50;
+  width: 0;
+  transition: width 0.5s ease-in-out;
+}
+.recieve{
+  width:90vh;
+  height:80vh;
+  background-color:  rgba(245, 239, 239, 0.5);
+  position:relative;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, 0%);
+  
+}
+    </style>
+</head>
+<body>
+    <button class="btn" onclick="centr()">SEND</button>
+    <button class="btn" onclick="rst()">RECIVED</button>
+  <div class="send" id="snd">
+        <label for="input">
+            <img src="/send.png">
+            <h2>Upload your file here!</h2>
+        </label>
+        <input type="file" id="input"> 
+       
+  </div>
+   <!--blackbox ai progress bar-->
+   <div class="container">
+    <form action="#" id="upload-form">
+      <input type="file" id="file-input" name="file">
+      <label for="file-input">Browse File to Upload</label>
+      <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+      </div>
+      <button type="submit">Upload</button>
+    </form>
+  </div>
+
+  <div class="recieve">
+    <label for="url">enter url here :</label>
+    <br>
+    <input type="text" name="" id="url">
+  </div>
+    <script>
+       // const fileInput = document.getElementById('file-input');
+        //const progressBar = document.getElementById('progress');
+        
+
+       // function uploadFile(event) {
+          //  const file = event.target.files[0];
+           // const formData = new FormData();
+          //  formData.append('file', file);
+
+           // const xhr = new XMLHttpRequest();
+           // xhr.open('POST', 'upload.php');
+           // xhr.upload.addEventListener('progress', e => {
+           //     if (e.lengthComputable) {
+            //        const percent = (e.loaded / e.total) * 100;
+            //        progressBar.style.width = `${percent}%`;
+            //    }
+            //});
+            //xhr.send(formData);
+       // }
+        function centr() {
+            document.querySelector('.send').classList.toggle('clksend');
+        }
+
+        const uploadForm = document.getElementById('upload-form');
+        const fileInput = document.getElementById('file-input');
+        const progressBar = document.getElementById('progress');
+    
+    uploadForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'upload.php');
+        xhr.upload.addEventListener('progress', (e) => {
+        const percent = (e.loaded / e.total) * 100;
+        progressBar.style.width = `${percent}%`;
+         });
+
+        xhr.onload = () => {
+        if (xhr.status === 200) {
+          console.log('File uploaded successfully.');
+        } else {
+          console.log('File upload failed.');
+        }
+        };
+
+        xhr.send(formData);
+    });
+  
+    </script>
+</body>
+</html>
